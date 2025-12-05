@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '@/contexts/AuthContext';
-import { branding, applyBrandingColors } from '@/lib/branding';
-import { useEffect } from 'react';
+import { branding } from '@/lib/branding';
+import { BrandingInitializer } from '@/components/BrandingInitializer';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -11,13 +11,6 @@ export const metadata: Metadata = {
   title: process.env.NEXT_PUBLIC_APP_NAME || 'JRF SecureNotify',
   description: 'Sistema de envio de alertas via WhatsApp',
 };
-
-function BrandingInitializer() {
-  useEffect(() => {
-    applyBrandingColors();
-  }, []);
-  return null;
-}
 
 export default function RootLayout({
   children,
@@ -39,6 +32,7 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
+        <BrandingInitializer />
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
