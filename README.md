@@ -15,7 +15,17 @@ monitoramento/
 │   │   └── shared/          # Utilitários (middleware, azure table)
 │   ├── host.json
 │   └── package.json
-└── frontend/         # Interface Web Next.js (em desenvolvimento)
+└── frontend/         # Interface Web Next.js
+    ├── src/
+    │   ├── app/              # Pages (App Router)
+    │   │   ├── login/        # Página de login
+    │   │   └── dashboard/    # Dashboard autenticado
+    │   ├── components/       # Componentes reutilizáveis
+    │   ├── contexts/         # React Contexts
+    │   ├── lib/              # Utilities e API client
+    │   └── types/            # TypeScript types
+    ├── public/               # Assets estáticos
+    └── package.json
 ```
 
 ## ☁️ Infraestrutura Azure
@@ -89,6 +99,85 @@ cp local.settings.json.example local.settings.json
 npm start
 ```
 
+### Setup Frontend
+
+```bash
+cd frontend
+npm install
+
+# Configurar variáveis de ambiente
+cp .env.local.example .env.local
+# Editar .env.local com a URL da Function App e configurações de branding
+
+# Executar localmente
+npm run dev
+# Acesse http://localhost:3000
+```
+
+### Variáveis de Ambiente (Frontend)
+
+Crie um arquivo `.env.local` na pasta `frontend` com as seguintes variáveis:
+
+```env
+NEXT_PUBLIC_API_BASE_URL=https://jrf-securenotify-64944549.azurewebsites.net
+NEXT_PUBLIC_APP_NAME=JRF SecureNotify
+NEXT_PUBLIC_LOGO_URL=/logo-placeholder.svg
+NEXT_PUBLIC_PRIMARY_COLOR=#3B82F6
+NEXT_PUBLIC_SECONDARY_COLOR=#1E40AF
+```
+
+### Sistema de Branding Customizável
+
+O frontend foi desenvolvido para ser facilmente customizável para diferentes clientes:
+
+1. **Logo:**
+   - Substitua o arquivo `public/logo-placeholder.svg` pela logo do cliente
+   - Ou configure `NEXT_PUBLIC_LOGO_URL` com URL externa
+
+2. **Nome da Aplicação:**
+   - Configure `NEXT_PUBLIC_APP_NAME` para o nome do cliente
+
+3. **Cores:**
+   - `NEXT_PUBLIC_PRIMARY_COLOR`: Cor principal da interface
+   - `NEXT_PUBLIC_SECONDARY_COLOR`: Cor secundária (hover, active)
+
+4. **Aplicação:**
+   - As configurações são aplicadas automaticamente via CSS variables
+   - Não é necessário alterar código-fonte
+
+### Funcionalidades do Frontend
+
+- ✅ **Autenticação:** Login JWT com gerenciamento seguro de tokens
+- ✅ **Dashboard:** Visão geral do sistema com navegação intuitiva
+- ✅ **Gestão de Clientes:**
+  - Cadastro de novos clientes com validação
+  - Listagem com busca/filtro
+  - Validação de telefone e campos obrigatórios
+- ✅ **Envio de Alertas:**
+  - Seleção múltipla de destinatários
+  - Busca e filtro de clientes
+  - Editor de mensagem
+  - Feedback detalhado do envio (sucesso/erro/pendente)
+  - Indicação quando WhatsApp não está configurado
+- ✅ **Interface Responsiva:** Design moderno para desktop, tablet e mobile
+- ✅ **Branding Customizável:** Logo, cores e nome configuráveis
+
+### Deploy na Vercel
+
+```bash
+# Instalar Vercel CLI
+npm i -g vercel
+
+# Deploy
+cd frontend
+vercel
+
+# Configurar variáveis de ambiente na Vercel:
+# 1. Acesse o dashboard da Vercel
+# 2. Vá em Settings > Environment Variables
+# 3. Adicione todas as variáveis NEXT_PUBLIC_*
+```
+
 ### Endpoints Disponíveis
 
 #### Autenticação
@@ -119,11 +208,12 @@ npm start
 
 ## 📝 Próximos Passos
 
-- [ ] Desenvolver frontend Next.js
-- [ ] Implementar dashboard de métricas
-- [ ] Adicionar templates de mensagens
+- [x] Desenvolver frontend Next.js
+- [ ] Implementar dashboard de métricas avançadas
+- [ ] Adicionar templates de mensagens predefinidas
 - [ ] Sistema de agendamento de alertas
 - [ ] Webhook para receber confirmações do WhatsApp
+- [ ] Sistema de relatórios e analytics
 
 ## 📚 Documentação
 
