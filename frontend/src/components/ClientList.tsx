@@ -22,7 +22,8 @@ export default function ClientList({ refresh }: ClientListProps) {
 
     try {
       const response = await apiClient.get('/api/contacts');
-      const contactsData = response.data || [];
+      // Backend retorna { success: true, contacts: [...] }
+      const contactsData = response.data?.contacts || [];
       setContacts(contactsData);
       setFilteredContacts(contactsData);
     } catch (err) {

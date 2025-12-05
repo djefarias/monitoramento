@@ -39,8 +39,10 @@ export default function AlertForm() {
     setLoadingContacts(true);
     try {
       const response = await apiClient.get('/api/contacts');
-      setContacts(response.data || []);
-      setFilteredContacts(response.data || []);
+      // Backend retorna { success: true, contacts: [...] }
+      const contactsData = response.data?.contacts || [];
+      setContacts(contactsData);
+      setFilteredContacts(contactsData);
     } catch (err) {
       setError(handleApiError(err));
     } finally {
